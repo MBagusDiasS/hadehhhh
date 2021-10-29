@@ -56,6 +56,7 @@ banChats = true
 
 let fakeimage = fs.readFileSync("./media/wpmobile.png")
 let setting = JSON.parse(fs.readFileSync('./setting.json'))
+let logog =fs.readFileSync('./media/logo-google.png')
 
 prefix = setting.prefix
 owner = setting.owner
@@ -626,7 +627,7 @@ buttons = [{buttonId:`${prefix}menusimple`,buttonText:{displayText:'MENU BOT'},t
           	break
 //------------------< Downloader/Search/Anime >-------------------
 case 'downloadmenu':
-  ddm =(` 1. igdl\n 2. tiktokdl\n 3. igstory\n 4. youtubedl\n 5. Facebook\n 6. twitter\n 7. ytdesc\n 8. ytsearch\n 9. play`)
+  ddm =(`----[down menu]----\n1. igdl\n 2. tiktokdl\n 3. igstory\n 4. youtubedl\n 5. Facebook\n 6. twitter\n 7. ytdesc\n 8. ytsearch\n 9. play\n\n ---[END]---`)
   reply(ddm)
   break
        case 'igdl':
@@ -857,7 +858,7 @@ a += `
             
  //------------------< gambar/maker >-------------------
  case 'makermenu' : 
-   mm = (` 1. nhentaipdf\n 2. googleimage\n 3.gogle\n 4. chara\n 5. waifu\n 6. cosplay\n 7. loli\n 8. husbu\n 9. milf`)
+   mm = (` 1. nhentaipdf\n 2. googleimage\n 3.gogle\n 4. chara\n 5. waifu\n 6. cosplay\n 7. loli\n 8. husbu\n 9. milf\n\n ---[END]---`)
    reply (mm)
    break
             case 'nhentaipdf':
@@ -881,7 +882,7 @@ a += `
               else {
               gugIm = result
               random =  gugIm[Math.floor(Math.random() * gugIm.length)].url
-              sendFileFromUrl(random, image, {quoted: mek, thumbnail: Buffer.alloc(0), caption: `*Hasil Pencarian Dari :* ${teks}`})
+              sendFileFromUrl(random, image, {quoted: mek, thumbnail: logog, caption: `*Hasil Pencarian Dari :* ${teks}`})
 }
 }
              break
@@ -894,11 +895,14 @@ a += `
               for (let i = 0; i < results.length; i++) {
               vars +=  `\n═════════════════\n\n*Judul:* ${results[i].title}\n\n*Deskripsi:* ${results[i].snippet}\n\n*Link:* ${results[i].link}\n\n`
 }
-               mbagusdiass.sendMessage(from, ss, image, {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
-               }).catch(e => {
+               mbagusdiass.sendMessage(from, logog, image,  {caption: vars, quoted : mek, thumbnail: Buffer.alloc(0) })
+
+             }).catch(e => {
+
                console.log(e)
                reply(`${e}`)
 })
+
                break
         
     case 'chara':
@@ -1052,7 +1056,7 @@ case 'stickerwa':
           
 //------------------< Ingfo Bot >-------------------
 case 'ownermenu':
-  oww = (`1. runtime\n 2. ping\n 3. speed\n 4. exif\n 5. join\n 6. term\n 7. shutdown\n 8. `)
+  oww = (`----[owner menu]----\n1. runtime\n 2. ping\n 3. speed\n 4. exif\n 5. join\n 6. term\n 7. shutr\n 8. bc\n 9. repeat\n 10. leaveall\n\n ---[END]---`)
   break
       case 'runtime':
               textImg(`${runtime(process.uptime())}`)
@@ -1104,9 +1108,46 @@ case 'ownermenu':
              mbagusdiass.groupLeave(id)
 }
              break
+             case "bc" :
+
+                if(!isOwner) return
+
+                if (args.length < 1) return reply('.......')
+
+					anu = await mbagusdiass.chats.all()
+
+					if (isMedia && !mek.message.videoMessage || isQuotedImage) {
+						const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+						buff = await mbagusdiass.downloadMediaMessage(encmedia)
+						for (let _ of anu) {
+							mbagusdiass.sendMessage(_.jid, buff, image, {caption: `!!PERINGATAN!!\n\n${body.slice(3)}\n terimakasih atas perhatiannya🙏🙏`})
+						}
+						reply('*Suksess broadcast* ')
+					} else {
+						for (let _ of anu) {
+							sendMess(_.jid, `!!PERINGATAN!!\n\n${body.slice(3)}\n terimakasih atas perhatiannya 🙏🙏`)
+						}
+						reply('*Sukses broadcast* ')
+					}
+					break
+					case 'repeat' :
+					  const repeat = (text, total) => {
+
+			reply(text.repeat(total))
+
+			}
+					  if(!isOwner) return
+					  if (args.length < 1) return reply(`Kirim perintah *${prefix}repeat [jumlah|teks]`)
+
+		teks = args.join(' ').split("|")
+
+		if(isNaN(teks[0])) return reply('Jumlah Harus berupa angka!')
+		if (teks[0] > 1000) return reply('repeater max 1000')
+		repeat(teks[1], teks[0])
+		break
              //-------(group)-----//
              case 'groupmenu':
-              gcc =  (`1. welcome.\n2. sider\n3. kick\n4. culik\n5. hidetag\n6. wangy`)
+              gcc =  (`1. welcome.\n2. sider\n3. kick\n4. culik\n5. hidetag\n6. wangy\n7. promote\n\n ---[END]---`)
               reply (gcc)
               break
            case 'welcome':
@@ -1180,11 +1221,33 @@ break
               awikwok = `${qq} ${qq} ${qq} ❤️ ❤️ ❤️ WANGY WANGY WANGY WANGY HU HA HU HA HU HA, aaaah baunya rambut ${qq} wangyy aku mau nyiumin aroma wangynya ${qq} AAAAAAAAH ~ Rambutnya.... aaah rambutnya juga pengen aku elus-elus ~~ AAAAAH ${qq} keluar pertama kali di anime juga manis ❤️ ❤️ ❤️ banget AAAAAAAAH ${qq} AAAAA LUCCUUUUUUUUUUUUUUU............ ${qq} AAAAAAAAAAAAAAAAAAAAGH ❤️ ❤️ ❤️apa ? ${qq} itu gak nyata ? Cuma HALU katamu ? nggak, ngak ngak ngak ngak NGAAAAAAAAK GUA GAK PERCAYA ITU DIA NYATA NGAAAAAAAAAAAAAAAAAK PEDULI BANGSAAAAAT !! GUA GAK PEDULI SAMA KENYATAAN POKOKNYA GAK PEDULI. ❤️ ❤️ ❤️ ${qq} gw ... ${qq} di laptop ngeliatin gw, ${qq} .. kamu percaya sama aku ? aaaaaaaaaaah syukur ${q} aku gak mau merelakan ${qq} aaaaaah ❤️ ❤️ ❤️ YEAAAAAAAAAAAH GUA MASIH PUNYA ${qq} SENDIRI PUN NGGAK SAMA AAAAAAAAAAAAAAH`
               reply(awikwok)
               break
+              case 'promote':
+              case 'adminn':
+
+					if (!isGroup) return reply(ind.groupo())
+
+					if (!isGroupAdmins) return reply(ind.admin())
+					if (!isBotGroupAdmins) return reply('BOT HARUS JADI ADMIN DULU')
+					if (mek.message.extendedTextMessage === undefined || mek.message.extendedTextMessage === null) return reply('𝗧𝗮𝗴 𝘁𝗮𝗿𝗴𝗲𝘁 𝘆𝗮𝗻𝗴 𝗶𝗻𝗴𝗶𝗻 𝗱𝗶 𝘁𝗲𝗻𝗱𝗮𝗻𝗴!')
+					mentioned = mek.message.extendedTextMessage.contextInfo.mentionedJid
+					if (mentioned.length > 1) {
+						teks = ''
+						for (let _ of mentioned) {
+							teks += `Selamat🥳 anda naik menjadi admin grub (>_<) :\n`
+							teks += `@_.split('@')[0]`
+						}
+						mentions(teks, mentioned, true)
+						mbagusdiass.groupMakeAdmin(from, mentioned)
+					} else {
+						mentions(`selamat🥳 @${mentioned[0].split('@')[0]} anda naik menjadi admin grub (>_<)`, mentioned, true)
+						mbagusdiass.groupMakeAdmin(from, mentioned)
+					}
+					break	
   //------------------< (other) >-------------------
 
        
 case 'othermenu' :
-  om = (` 1. Getpp.\n 2. Get.\n 3. Fetch.\n 4. Searchmsg.\n 5. Lolkey.\n 6. Cekapikey.\n 7. Sc.\n 8. Jadibot.\n 9. Stopjadibot.\n 10. Listbot.\n 11. tourl`)
+  om = (` 1. Getpp.\n 2. Get.\n 3. Fetch.\n 4. Searchmsg.\n 5. Lolkey.\n 6. Cekapikey.\n 7. Sc.\n 8. Jadibot.\n 9. Stopjadibot.\n 10. Listbot.\n 11. tourl\n\n ---[END]---`)
   reply (om)
   break
         case 'getpp':
