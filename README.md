@@ -1,11 +1,19 @@
+<&--cara pemasangan bot--&>
 
-Cara pemasangan di termux 
 apt update
 apt upgrade
-pkg install git
-pkg install wget
-pkg install ffmpeg
-pkg install nodejs
-pkg instal mc
-pkg install unzip
-gitt clone 
+apt install git
+apt install wget
+apt install ffmpeg
+apt install nodejs
+apt instal mc
+apt install libwebp
+apt install imagemagic
+apt install unzip
+cd /sdcard
+git clone https://github.com/mbagusdiass/hadehhhh
+node main.js
+scan qr
+
+<--- untuk mematikan bot ketik ctrl + c --->
+<--- untuk menghidupkan ketik node main.js --->
